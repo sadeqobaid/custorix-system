@@ -3,10 +3,10 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - main  # Replace with 'main' if your default branch is 'main'
+      - master
   pull_request:
     branches:
-      - main  # Replace with 'main' if your default branch is 'main'
+      - master
 
 jobs:
   test:
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  # Use the Python version your project requires
+          python-version: '3.10'  # Use the correct Python version
 
       - name: Install dependencies
         run: |
@@ -27,4 +27,5 @@ jobs:
 
       - name: Run tests
         run: |
+          cd backend  # Navigate to the backend folder
           python manage.py test
