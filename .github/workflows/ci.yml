@@ -3,10 +3,10 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - master  # Replace with 'main' if your default branch is 'main'
+      - main  # Replace with 'main' if your default branch is 'main'
   pull_request:
     branches:
-      - master  # Replace with 'main' if your default branch is 'main'
+      - main  # Replace with 'main' if your default branch is 'main'
 
 jobs:
   test:

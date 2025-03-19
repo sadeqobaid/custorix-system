@@ -232,18 +232,168 @@ git init
 
 ==========================================================================================
 
+How to Push your folder to your GitHub account
+
+Step 1: Initialize a Git Repository
+cd ~/Desktop/custorix-system
+git init
+
+Step 2: Create a .gitignore File
+Add a .gitignore file to exclude unnecessary files (e.g., virtual environments, node modules, etc.). Here's an example .gitignore file:
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+venv/
+env/
+
+# Node.js
+node_modules/
+dist/
+build/
+
+# React
+.DS_Store
+.env.local
+.env.development
+.env.production
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+docker-compose.override.yml
+
+# IDE
+.vscode/
+.idea/
+
+You can create the .gitignore file using the terminal:
+touch .gitignore
+
+Step 3: Add Files to the Git Repository
+Add all files to the Git staging area:
+git add .
+
+Step 4: Commit the Files
+Commit the files with a meaningful message:
+git commit -m "Initial commit: Set up project structure"
+
+Step 5: Create a New Repository on GitHub
+1. Go to GitHub and log in to your account.
+2. Click the + button in the top-right corner and select New repository.
+3. Fill in the repository name (e.g., custorix-system).
+4. Choose Public or Private (depending on your preference).
+5. Do not initialize the repository with a README, .gitignore, or license (since you already have these locally).
+
+Step 6: Link Your Local Repository to GitHub
+Copy the remote repository URL from GitHub (it will look like https://github.com/your-username/custorix-system.git).
+Then, add the remote repository to your local Git configuration:
+git remote add origin https://github.com/your-username/custorix-system.git
+
+Step 7: Push Your Code to GitHub
+Push your local repository to GitHub:
+git push -u origin master
+
+If you encounter an error because your default branch is named main instead of master, use:
+git push -u origin main
+
+Step 8: Verify on GitHub
+1. Go to your GitHub repository page.
+2. Refresh the page, and you should see all your files and folders uploaded.
 
 
+Set Up GitHub Actions for CI/CD (Optional)
+Step 1: Create the .github/workflows Folder
+
+1. Navigate to your project folder:
+cd ~/Desktop/custorix-system
+2. Create the .github/workflows folder:
+mkdir -p .github/workflows
+
+Step 2: Create the ci.yml File
+
+1. Navigate to the workflows folder:
+cd .github/workflows
+2. touch ci.yml
+
+Step 3: Add the Workflow Configuration
+
+Open the ci.yml file in a text editor (e.g., VS Code, Nano, or any editor of your choice). Paste the following content into the file:
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - master  # Replace with 'main' if your default branch is 'main'
+  pull_request:
+    branches:
+      - master  # Replace with 'main' if your default branch is 'main'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'  # Use the Python version your project requires
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements/base.txt
+
+      - name: Run tests
+        run: |
+          python manage.py test
+          
+          
+Step 4: Save and Close the File
+
+Step 5: Add the Workflow to Git
+
+1. Add the .github/workflows/ci.yml file to the staging area:
+git add .github/workflows/ci.yml
+2. Commit the changes:
+git commit -m "Add GitHub Actions CI pipeline"
+
+Step 6: Push the Changes to GitHub
+git push origin master
+
+Step 7: Verify the Workflow on GitHub
+
+1. Go to your GitHub repository page.
+2. Click on the Actions tab at the top of the repository.
+3. You should see a new workflow run triggered by your recent push.
+4. Click on the workflow run to see the details and logs.
+
+What This Workflow Does
+
+Triggers:
+Runs on every push to the master branch (or main if that’s your default branch).
+Runs on every pull request targeting the master branch.
+Jobs:
+Checkout code: Fetches the latest code from your repository.
+Set up Python: Installs the specified Python version (e.g., 3.9).
+Install dependencies: Upgrades pip and installs Python dependencies from backend/requirements/base.txt.
+Run tests: Executes your Django tests using python manage.py test.
 
 
+Step 8: Push the Updated Workflow
 
+1. Add and commit the changes:
+git add .github/workflows/ci.yml
+git commit -m "Add linting step to GitHub Actions CI pipeline"
 
-
-
-
-
-
-
+2. Push the changes:
+git push origin master
 
 
 
